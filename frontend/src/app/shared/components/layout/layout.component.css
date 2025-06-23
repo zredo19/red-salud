@@ -1,0 +1,51 @@
+.main-container {
+  display: flex;
+  height: calc(100vh - 60px); /* Resta la altura del header */
+}
+
+.sidebar {
+  width: 240px;
+  background-color: #f4f4f4;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+}
+
+.sidebar h3 {
+  color: #666; /* Azul RedSalud */
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar li a {
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #333;
+  border-radius: 4px;
+  margin-bottom: 5px;
+}
+
+.sidebar li a:hover, .sidebar li a.active {
+  background-color: #e0e0e0;
+  color: black;
+  font-weight: bold;
+}
+
+.sidebar .menu-header {
+  font-weight: bold;
+  color: #666;
+  margin-top: 15px;
+  margin-bottom: 5px;
+  font-size: 0.9em;
+  text-transform: uppercase;
+}
+
+.content {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
+}

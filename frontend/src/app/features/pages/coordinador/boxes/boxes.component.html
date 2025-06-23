@@ -1,0 +1,41 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1>Gestión de Boxes de Atención</h1>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre del Box</th>
+        <th>Piso</th>
+        <th>Especialidad Asociada</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (box of boxes(); track box.id) {
+        <tr [ngClass]="'status-' + box.estado.toLowerCase().replace(' ', '-')">
+          <td>{{ box.id }}</td>
+          <td>{{ box.nombre }}</td>
+          <td>{{ box.piso }}</td>
+          <td>{{ getEspecialidadNombre(box.especialidadAsociadaId) }}</td>
+          <td>
+            <span class="status-dot"></span> {{ box.estado }}
+            @if (box.estado === 'En mantención') {
+              <span class="maintenance-warning" title="Este box no puede ser asignado a consultas.">⚠️</span>
+            }
+          </td>
+          <td>
+            <button class="action-button edit" (click)="asignarEspecialidad(box)">Asignar Especialidad</button>
+          </td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="6">No hay boxes registrados.</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,74 @@
+<div class="page-container agenda-grid">
+  <div class="form-container">
+    <div class="page-header">
+      <h2>Crear Bloque de Atención</h2>
+    </div>
+    <form [formGroup]="formAgenda" (ngSubmit)="crearBloque()">
+      <div class="input-group">
+        <label for="profesional">Profesional</label>
+        <select id="profesional" formControlName="profesionalId">
+          <option value="" disabled>Seleccione un profesional</option>
+          @for(prof of profesionales(); track prof.id) {
+            <option [value]="prof.id">{{ prof.nombre }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label for="box">Box (Solo disponibles)</label>
+        <select id="box" formControlName="boxId">
+          <option value="" disabled>Seleccione un box</option>
+          @for(box of boxesDisponibles(); track box.id) {
+            <option [value]="box.id">{{ box.nombre }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label for="fecha">Fecha</label>
+        <input type="date" id="fecha" formControlName="fecha">
+      </div>
+
+      <div class="time-group">
+        <div class="input-group">
+          <label for="horaInicio">Hora Inicio</label>
+          <input type="time" id="horaInicio" formControlName="horaInicio">
+        </div>
+        <div class="input-group">
+          <label for="horaFin">Hora Fin</label>
+          <input type="time" id="horaFin" formControlName="horaFin">
+        </div>
+      </div>
+
+      <button type="submit" class="primary-button" [disabled]="formAgenda.invalid">Agendar Cita</button>
+    </form>
+  </div>
+
+  <div class="list-container">
+    <div class="page-header">
+      <h2>Agenda Actual</h2>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Horario</th>
+          <th>Profesional</th>
+          <th>Box</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (cita of agenda(); track cita.id) {
+          <tr>
+            <td>{{ cita.fecha | date:'dd/MM/yyyy' }}</td>
+            <td>{{ cita.horaInicio }} - {{ cita.horaFin }}</td>
+            <td>{{ getProfesionalNombre(cita.profesionalId) }}</td>
+            <td>{{ getBoxNombre(cita.boxId) }}</td>
+          </tr>
+        } @empty {
+          <tr><td colspan="4">No hay citas en la agenda.</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

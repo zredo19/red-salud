@@ -1,0 +1,16 @@
+/* Estilos generales (pueden ser globales) */
+.page-container { padding: 20px; }
+.page-header h1 { color: #0033a0; }
+table { width: 100%; border-collapse: collapse; background: white; }
+th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+th { background-color: #f2f2f2; }
+tbody tr:nth-child(odd) { background-color: #f9f9f9; }
+tbody tr:hover { background-color: #f1f1f1; }
+
+.alert-warning {
+  padding: 15px;
+  background-color: #fff3cd;
+  border: 1px solid #ffeeba;
+  color: #856404;
+  border-radius: 4px;
+}

@@ -1,0 +1,35 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1>Gestión de Especialidades Médicas</h1>
+    <button class="primary-button" (click)="agregarEspecialidad()">+ Agregar Especialidad</button>
+  </div>
+
+  <div class="filters">
+    <input type="text" placeholder="Buscar por nombre...">
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let esp of especialidades()">
+        <td>{{ esp.id }}</td>
+        <td>{{ esp.nombre }}</td>
+        <td>{{ esp.descripcion }}</td>
+        <td>
+          <button class="action-button edit">Editar</button>
+          <button class="action-button delete" (click)="eliminarEspecialidad(esp.id)">Eliminar</button>
+        </td>
+      </tr>
+      <tr *ngIf="especialidades().length === 0">
+        <td colspan="4">No hay especialidades registradas.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,73 @@
+.dashboard-container h1 {
+  color: #666;
+}
+
+.dashboard-container h2 {
+  color: #666;
+}
+
+.role-badge {
+  background-color: #e50051;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 15px;
+  display: inline-block;
+  font-size: 0.9em;
+  margin-bottom: 30px;
+}
+
+.card-deck {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0);
+  padding: 20px;
+  flex: 1;
+  min-width: 220px;
+  text-align: center;
+  border-left: 5px solid #009999;
+}
+
+.card.green { border-left-color: #28a745; }
+.card.orange { border-left-color: red; }
+
+.card h3 {
+  margin-top: 0;
+  color: #666;
+}
+
+.card .count {
+  font-size: 3em;
+  font-weight: bold;
+  color: #666;
+  margin: 10px 0;
+}
+
+.card.green .count { color: #28a745; }
+.card.orange .count { color: red; }
+
+.card .subtitle {
+  font-size: 1em;
+  color: #666;
+  min-height: 40px;
+}
+
+.card-link {
+  text-decoration: none;
+  background-color: #f0f0f0;
+  color: #333;
+  padding: 8px 15px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-top: 10px;
+  transition: background-color 0.2s;
+}
+
+.card-link:hover {
+  background-color: #e0e0e0;
+}

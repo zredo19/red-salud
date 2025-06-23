@@ -1,0 +1,12 @@
+<header class="app-header">
+  <div class="logo">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2UGubgjCWKrD7rNsZK-HecE_7hNBrOqpxEA&s" alt="RedSalud Logo">
+    <span>Sistema de Gestión de Boxes</span>
+  </div>
+  @if(currentUser(); as user) {
+    <div class="user-info">
+      <span>Bienvenido, {{ user.nombre }} ({{ user.role }})</span>
+      <button (click)="logout()">Cerrar Sesión</button>
+    </div>
+  }
+</header>

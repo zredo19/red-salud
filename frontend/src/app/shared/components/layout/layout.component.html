@@ -1,0 +1,29 @@
+<main class="main-container">
+  <nav class="sidebar">
+    <h3>Menú</h3>
+    <ul>
+      <li><a routerLink="/dashboard" routerLinkActive="active">Inicio</a></li>
+
+      @if (currentUser()?.role === 'Administrador del sistema') {
+        <li class="menu-header">Administración</li>
+        <li><a routerLink="/admin/especialidades" routerLinkActive="active">Gestionar Especialidades</a></li>
+        <li><a routerLink="/admin/profesionales" routerLinkActive="active">Gestionar Profesionales</a></li>
+      }
+
+      @if (currentUser()?.role === 'Coordinador de boxes') {
+        <li class="menu-header">Coordinación</li>
+        <li><a routerLink="/coordinador/boxes" routerLinkActive="active">Gestionar Boxes</a></li>
+        <li><a routerLink="/coordinador/agenda" routerLinkActive="active">Gestionar Agenda</a></li>
+      }
+
+      @if (currentUser()?.role === 'Doctor') {
+        <li class="menu-header">Doctor</li>
+        <li><a routerLink="/doctor/mi-agenda" routerLinkActive="active">Mi Agenda</a></li>
+      }
+    </ul>
+  </nav>
+
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+</main>

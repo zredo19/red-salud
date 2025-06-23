@@ -1,0 +1,65 @@
+/* Estilos para centrar y dar apariencia a la caja de login */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* <-- CAMBIO 1: De 'center' a 'flex-start' */
+    padding-top: 12vh;      /* <-- CAMBIO 2: Añadimos un espacio desde arriba */
+    height: 100vh;
+    background-color: #f0f2f5;
+    box-sizing: border-box; /* Añadido para que el padding no cause un desbordamiento */
+}
+.login-box {
+    padding: 40px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+.logo {
+    max-width: 200px;
+    margin-bottom: 20px;
+}
+.input-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    background-color: #0033a0;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+button:not(:disabled):hover {
+    background-color: #00227a;
+}
+.error-message {
+    color: #e50051;
+    background-color: #fdd;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
