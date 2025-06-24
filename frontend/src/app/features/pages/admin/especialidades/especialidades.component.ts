@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core'; // Importamos computed y signal
 import { EspecialidadService } from '../../../../core/services/especialidad.service';
 import { ProfesionalService } from '../../../../core/services/profesional.service';
 import { CommonModule } from '@angular/common';
@@ -8,12 +8,32 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './especialidades.component.html',
-  styleUrl: './especialidades.component.css'
+  styleUrls: ['./especialidades.component.css'] // Corregido a styleUrls
 })
 export class EspecialidadesComponent {
   especialidadService = inject(EspecialidadService);
-  profesionalService = inject(ProfesionalService); // Inyectado para validación
-  especialidades = this.especialidadService.getEspecialidades();
+  profesionalService = inject(ProfesionalService);
+
+  // Señal que contiene la lista COMPLETA de especialidades
+  private todasLasEspecialidades = this.especialidadService.getEspecialidades();
+
+  // NUEVO: Señal para guardar el texto que el usuario escribe en el buscador
+  searchTerm = signal<string>('');
+
+  // NUEVO: Señal COMPUTADA que contiene la lista FILTRADA.
+  // Se actualiza automáticamente cuando 'todasLasEspecialidades' o 'searchTerm' cambian.
+  filteredEspecialidades = computed(() => {
+    const term = this.searchTerm().toLowerCase();
+    const especialidades = this.todasLasEspecialidades();
+
+    if (term === '') {
+      return especialidades; // Si no hay búsqueda, muestra todo
+    }
+
+    return especialidades.filter(esp =>
+      esp.nombre.toLowerCase().includes(term)
+    );
+  });
 
   // RF-01: Registrar nuevas especialidades
   agregarEspecialidad() {
@@ -29,5 +49,11 @@ export class EspecialidadesComponent {
     if (confirm("¿Está seguro de que desea eliminar esta especialidad?")) {
       this.especialidadService.deleteEspecialidad(id, this.profesionalService);
     }
+  }
+
+  // NUEVO: Método que se llama cada vez que el usuario escribe en el input de búsqueda
+  onSearch(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    this.searchTerm.set(value);
   }
 }

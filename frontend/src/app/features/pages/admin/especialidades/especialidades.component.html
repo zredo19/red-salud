@@ -5,7 +5,10 @@
   </div>
 
   <div class="filters">
-    <input type="text" placeholder="Buscar por nombre...">
+    <input
+      type="text"
+      placeholder="Buscar por nombre..."
+      (input)="onSearch($event)">
   </div>
 
   <table>
@@ -18,7 +21,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let esp of especialidades()">
+      <tr *ngFor="let esp of filteredEspecialidades()">
         <td>{{ esp.id }}</td>
         <td>{{ esp.nombre }}</td>
         <td>{{ esp.descripcion }}</td>
@@ -27,8 +30,8 @@
           <button class="action-button delete" (click)="eliminarEspecialidad(esp.id)">Eliminar</button>
         </td>
       </tr>
-      <tr *ngIf="especialidades().length === 0">
-        <td colspan="4">No hay especialidades registradas.</td>
+      <tr *ngIf="filteredEspecialidades().length === 0">
+        <td colspan="4">No se encontraron especialidades con ese nombre.</td>
       </tr>
     </tbody>
   </table>

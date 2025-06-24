@@ -1,1 +1,72 @@
-<p>profesionales works!</p>
+<div class="page-container">
+  <div class="page-header">
+    <h1>Gestión de Profesionales</h1>
+    <button *ngIf="!showForm" class="primary-button" (click)="iniciarRegistro()">+ Registrar Profesional</button>
+  </div>
+
+  <div *ngIf="showForm" class="form-container">
+    <h2>{{ isEditMode ? 'Editando Profesional' : 'Registrar Nuevo Profesional' }}</h2>
+    <form [formGroup]="profesionalForm" (ngSubmit)="onSubmit()">
+
+      <div class="input-group">
+        <label for="nombre">Nombre Completo</label>
+        <input id="nombre" type="text" formControlName="nombre">
+      </div>
+
+      <div class="input-group">
+        <label for="rut">RUT / ID Único</label>
+        <input id="rut" type="text" formControlName="rut">
+      </div>
+
+      <div class="input-group">
+        <label for="especialidad">Especialidad</label>
+        <select id="especialidad" formControlName="especialidadId">
+          <option value="" disabled>Seleccione una especialidad</option>
+          <option *ngFor="let esp of especialidades()" [value]="esp.id">{{ esp.nombre }}</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label for="contacto">Email de Contacto</label>
+        <input id="contacto" type="email" formControlName="contacto">
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="primary-button" [disabled]="profesionalForm.invalid">
+          {{ isEditMode ? 'Actualizar' : 'Guardar' }}
+        </button>
+        <button type="button" class="secondary-button" (click)="cancelar()">Cancelar</button>
+      </div>
+
+    </form>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>RUT</th>
+        <th>Especialidad</th>
+        <th>Contacto</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let prof of profesionales()">
+        <td>{{ prof.id }}</td>
+        <td>{{ prof.nombre }}</td>
+        <td>{{ prof.rut }}</td>
+        <td>{{ getEspecialidadNombre(prof.especialidadId) }}</td>
+        <td>{{ prof.contacto }}</td>
+        <td>
+          <button class="action-button edit" (click)="iniciarEdicion(prof)">Editar</button>
+          <button class="action-button delete" (click)="eliminarProfesional(prof.id)">Eliminar</button>
+        </td>
+      </tr>
+      <tr *ngIf="profesionales().length === 0">
+        <td colspan="6">No hay profesionales registrados.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

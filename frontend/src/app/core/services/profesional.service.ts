@@ -18,8 +18,22 @@ export class ProfesionalService {
     this.profesionales.set(MOCK_PROFESIONALES);
   }
 
+  // RF-03: Registrar profesionales
   addProfesional(profesional: Omit<Profesional, 'id'>) {
     const nuevoProfesional: Profesional = { ...profesional, id: this.nextId++ };
     this.profesionales.update(list => [...list, nuevoProfesional]);
+  }
+
+  // NUEVA FUNCIÓN: Actualizar un profesional (cubre RF-04)
+  updateProfesional(id: number, data: Partial<Omit<Profesional, 'id'>>) {
+    this.profesionales.update(list =>
+      list.map(p => (p.id === id ? { ...p, ...data } : p))
+    );
+  }
+
+  // NUEVA FUNCIÓN: Eliminar un profesional
+  deleteProfesional(id: number) {
+    // Aquí se podrían agregar validaciones, como no eliminar si tiene citas.
+    this.profesionales.update(list => list.filter(p => p.id !== id));
   }
 }
