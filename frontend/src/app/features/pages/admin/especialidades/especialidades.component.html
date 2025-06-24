@@ -8,31 +8,31 @@
     <input
       type="text"
       placeholder="Buscar por nombre..."
-      (input)="onSearch($event)">
+      [(ngModel)]="searchTerm"
+      (ngModelChange)="onSearch()">
   </div>
 
   <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Descripción</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let esp of filteredEspecialidades()">
-        <td>{{ esp.id }}</td>
-        <td>{{ esp.nombre }}</td>
-        <td>{{ esp.descripcion }}</td>
-        <td>
-          <button class="action-button edit">Editar</button>
-          <button class="action-button delete" (click)="eliminarEspecialidad(esp.id)">Eliminar</button>
-        </td>
-      </tr>
-      <tr *ngIf="filteredEspecialidades().length === 0">
-        <td colspan="4">No se encontraron especialidades con ese nombre.</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>Descripción</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let esp of filteredEspecialidades">
+      <td>{{ esp.id }}</td>
+      <td>{{ esp.nombre }}</td>
+      <td>{{ esp.descripcion }}</td>
+      <td>
+        <button class="action-button edit" (click)="editarEspecialidad(esp)">Editar</button>
+        <button class="action-button delete" (click)="eliminarEspecialidad(esp.id)">Eliminar</button>
+      </td>
+    </tr>
+    <tr *ngIf="filteredEspecialidades.length === 0">
+      <td colspan="4">No se encontraron especialidades.</td>
+    </tr>
+  </tbody>
+</table>

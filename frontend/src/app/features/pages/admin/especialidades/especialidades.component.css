@@ -1,4 +1,3 @@
-/* Puedes crear un archivo de estilos global para esto */
 .page-container { padding: 20px; }
 .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 .primary-button { background-color: #0033a0; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }

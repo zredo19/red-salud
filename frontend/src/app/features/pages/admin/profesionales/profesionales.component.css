@@ -10,7 +10,6 @@ th { background-color: #f2f2f2; }
 .action-button.edit { background-color: #ffc107; }
 .action-button.delete { background-color: #dc3545; color: white; }
 
-/* Estilos para el contenedor del formulario */
 .form-container {
   background-color: #f9f9f9;
   border: 1px solid #e0e0e0;

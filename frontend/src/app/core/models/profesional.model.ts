@@ -1,7 +1,9 @@
+import { Especialidad } from "./especialidad.model";
+
 export interface Profesional {
   id: number;
   nombre: string;
   rut: string;
-  especialidadId: number;
+  especialidad: Especialidad;
   contacto: string;
 }

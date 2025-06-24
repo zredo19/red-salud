@@ -1,34 +1,35 @@
 <div class="page-container">
-  @if (currentProfesional(); as prof) {
-    <div class="page-header">
-      <h1>Mi Agenda - {{ prof.nombre }}</h1>
-    </div>
+  <div class="page-header">
+    <h1>Mi Agenda - {{ currentUser?.nombre || 'Doctor' }}</h1>
+  </div>
 
+  <div *ngIf="isLoading" class="loading-message">
+    <p>Cargando tu agenda...</p>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert-warning">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="!isLoading && !errorMessage">
     <table>
       <thead>
         <tr>
           <th>Fecha</th>
           <th>Horario</th>
-          <th>Lugar de Atención</th>
+          <th>Lugar de Atención (Box)</th>
         </tr>
       </thead>
       <tbody>
-        @for(cita of miAgenda(); track cita.id) {
-          <tr>
-            <td>{{ cita.fecha | date:'fullDate':'':'es-CL' }}</td>
-            <td>{{ cita.horaInicio }} - {{ cita.horaFin }}</td>
-            <td>{{ getBoxInfo(cita.boxId) }}</td>
-          </tr>
-        } @empty {
-          <tr>
-            <td colspan="3">No tienes citas programadas en tu agenda.</td>
-          </tr>
-        }
+        <tr *ngFor="let cita of miAgenda">
+          <td>{{ cita.fecha | date:'fullDate':'':'es-CL' }}</td>
+          <td>{{ cita.horaInicio }} - {{ cita.horaFin }}</td>
+          <td>{{ cita.box?.nombre }} (Piso {{ cita.box?.piso }})</td>
+        </tr>
+        <tr *ngIf="miAgenda.length === 0">
+          <td colspan="3">No tienes citas programadas en tu agenda.</td>
+        </tr>
       </tbody>
     </table>
-  } @else {
-    <div class="alert-warning">
-      No se pudo encontrar un perfil de profesional asociado a tu cuenta de usuario ({{ currentUser()?.email }}). Por favor, contacta al administrador.
-    </div>
-  }
+  </div>
 </div>

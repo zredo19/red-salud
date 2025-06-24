@@ -8,7 +8,7 @@
         <label for="profesional">Profesional</label>
         <select id="profesional" formControlName="profesionalId">
           <option value="" disabled>Seleccione un profesional</option>
-          @for(prof of profesionales(); track prof.id) {
+          @for(prof of profesionales; track prof.id) {
             <option [value]="prof.id">{{ prof.nombre }}</option>
           }
         </select>
@@ -18,7 +18,7 @@
         <label for="box">Box (Solo disponibles)</label>
         <select id="box" formControlName="boxId">
           <option value="" disabled>Seleccione un box</option>
-          @for(box of boxesDisponibles(); track box.id) {
+          @for(box of boxesDisponibles; track box.id) {
             <option [value]="box.id">{{ box.nombre }}</option>
           }
         </select>
@@ -58,12 +58,12 @@
         </tr>
       </thead>
       <tbody>
-        @for (cita of agenda(); track cita.id) {
+        @for (cita of agenda; track cita.id) {
           <tr>
             <td>{{ cita.fecha | date:'dd/MM/yyyy' }}</td>
             <td>{{ cita.horaInicio }} - {{ cita.horaFin }}</td>
-            <td>{{ getProfesionalNombre(cita.profesionalId) }}</td>
-            <td>{{ getBoxNombre(cita.boxId) }}</td>
+            <td>{{ cita.profesional?.nombre || 'N/A' }}</td>
+            <td>{{ cita.box?.nombre || 'N/A' }}</td>
           </tr>
         } @empty {
           <tr><td colspan="4">No hay citas en la agenda.</td></tr>

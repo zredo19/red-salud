@@ -1,39 +1,39 @@
 <div class="dashboard-container">
-  @if(currentUser(); as user) {
-    <h1>Bienvenido, {{ user.nombre }}</h1>
+  <div *ngIf="currentUser() as user">
+    <h1>Bienvenido, {{ user.nombre || 'Usuario' }}</h1>
     <p class="role-badge">{{ user.role }}</p>
 
-    @if (user.role === 'Administrador del sistema') {
+    <div *ngIf="user.role === 'Administrador del sistema'">
       <h2>Resumen del Sistema</h2>
       <div class="card-deck">
         <div class="card">
           <h3>Especialidades</h3>
-          <p class="count">{{ totalEspecialidades() }}</p>
+          <p class="count">{{ totalEspecialidades }}</p>
           <a routerLink="/admin/especialidades" class="card-link">Gestionar</a>
         </div>
         <div class="card">
           <h3>Profesionales</h3>
-          <p class="count">{{ totalProfesionales() }}</p>
+          <p class="count">{{ totalProfesionales }}</p>
           <a routerLink="/admin/profesionales" class="card-link">Gestionar</a>
         </div>
       </div>
-    }
+    </div>
 
-    @if (user.role === 'Coordinador de boxes') {
+    <div *ngIf="user.role === 'Coordinador de boxes'">
       <h2>Estado de los Boxes</h2>
       <div class="card-deck">
         <div class="card">
           <h3>Total de Boxes</h3>
-          <p class="count">{{ totalBoxes() }}</p>
+          <p class="count">{{ totalBoxes }}</p>
           <a routerLink="/coordinador/boxes" class="card-link">Gestionar Boxes</a>
         </div>
         <div class="card green">
           <h3>Disponibles</h3>
-          <p class="count">{{ boxesDisponibles() }}</p>
+          <p class="count">{{ boxesDisponibles }}</p>
         </div>
         <div class="card orange">
           <h3>En Mantención</h3>
-          <p class="count">{{ boxesMantencion() }}</p>
+          <p class="count">{{ boxesMantencion }}</p>
         </div>
          <div class="card">
           <h3>Agenda</h3>
@@ -41,9 +41,9 @@
           <a routerLink="/coordinador/agenda" class="card-link">Gestionar Agenda</a>
         </div>
       </div>
-    }
+    </div>
 
-    @if (user.role === 'Doctor') {
+    <div *ngIf="user.role === 'Doctor'">
       <h2>Tu Espacio</h2>
        <div class="card-deck">
         <div class="card">
@@ -52,6 +52,6 @@
           <a routerLink="/doctor/mi-agenda" class="card-link">Ver Mi Agenda</a>
         </div>
       </div>
-    }
-  }
+    </div>
+  </div>
 </div>

@@ -1,56 +1,64 @@
-// src/app/core/services/auth.service.ts
-
-import { Injectable, signal } from '@angular/core';
-import { User, UserRole } from '../models/user.model';
-import { Router } from '@angular/router'; // <- Asegúrate que Router esté importado
-
-// --- USUARIOS MOCK (SIMULANDO BASE DE DATOS) ---
-const MOCK_USERS: (User & { contrasena: string })[] = [
-  { id: 1, nombre: 'Admin RedSalud', email: 'admin@redsalud.cl', role: 'Administrador del sistema', contrasena: '123' },
-  { id: 2, nombre: 'Coordinador General', email: 'coordinador@redsalud.cl', role: 'Coordinador de boxes', contrasena: '123' },
-  { id: 3, nombre: 'Dr. Juan Pérez', email: 'doctor@redsalud.cl', role: 'Doctor', contrasena: '123' },
-];
+import { Injectable, inject, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
+import { User } from '../models/user.model';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  private http = inject(HttpClient);
+  private router = inject(Router);
+  private apiUrl = `${environment.apiUrl}/auth`;
+
   currentUser = signal<User | null>(null);
 
-  constructor(private router: Router) { // <- Asegúrate que Router se inyecta aquí
-    const userJson = localStorage.getItem('currentUser');
-    if (userJson) {
-      this.currentUser.set(JSON.parse(userJson));
+  constructor() {
+    this.loadUserFromToken();
+  }
+
+  private loadUserFromToken(): void {
+    const token = this.getToken();
+    if (token) {
+      const decodedToken: any = jwtDecode(token);
+      this.currentUser.set({
+        id: decodedToken.sub,
+        email: decodedToken.username,
+        nombre: decodedToken.nombre || 'Usuario',
+        role: decodedToken.role,
+      });
     }
   }
 
-  login(email: string, contrasena: string): boolean {
-    const userFound = MOCK_USERS.find(
-      (u) => u.email === email && u.contrasena === contrasena
-    );
-
-    if (userFound) {
-      const { contrasena, ...userToStore } = userFound;
-      localStorage.setItem('currentUser', JSON.stringify(userToStore));
-      this.currentUser.set(userToStore);
-
-      // --- ESTA LÍNEA ES LA QUE TE LLEVA A LA OTRA PÁGINA ---
-      this.router.navigate(['/dashboard']);
-
-      return true;
-    }
-
-    this.currentUser.set(null);
-    return false;
+  login(email: string, contrasena: string): Observable<boolean> {
+    return this.http.post<{ access_token: string }>(`${this.apiUrl}/login`, { email, password: contrasena })
+      .pipe(
+        tap(response => {
+          if (response.access_token) {
+            localStorage.setItem('access_token', response.access_token);
+            this.loadUserFromToken();
+          }
+        }),
+        map(response => !!response.access_token),
+        catchError(() => of(false))
+      );
   }
 
-  logout() {
-    localStorage.removeItem('currentUser');
+  logout(): void {
+    localStorage.removeItem('access_token');
     this.currentUser.set(null);
     this.router.navigate(['/login']);
   }
 
-  hasRole(role: UserRole): boolean {
-    return this.currentUser()?.role === role;
+  getToken(): string | null {
+    return localStorage.getItem('access_token');
+  }
+
+  isLoggedIn(): boolean {
+    return !!this.getToken();
   }
 }

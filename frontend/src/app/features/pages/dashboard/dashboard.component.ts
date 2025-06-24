@@ -1,29 +1,63 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { AuthService } from '../../../core/services/auth.service';
 import { EspecialidadService } from '../../../core/services/especialidad.service';
 import { ProfesionalService } from '../../../core/services/profesional.service';
 import { BoxService } from '../../../core/services/box.service';
 import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { User } from '../../../core/models/user.model';
+import { Signal } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, CommonModule],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   authService = inject(AuthService);
   especialidadService = inject(EspecialidadService);
   profesionalService = inject(ProfesionalService);
   boxService = inject(BoxService);
 
-  currentUser = this.authService.currentUser;
+  currentUser: Signal<User | null>;
 
-  // Señales computadas para obtener los contadores
-  totalEspecialidades = computed(() => this.especialidadService.especialidades().length);
-  totalProfesionales = computed(() => this.profesionalService.profesionales().length);
-  totalBoxes = computed(() => this.boxService.boxes().length);
-  boxesDisponibles = computed(() => this.boxService.boxes().filter(b => b.estado === 'Disponible').length);
-  boxesMantencion = computed(() => this.boxService.boxes().filter(b => b.estado === 'En mantención').length);
+  totalEspecialidades = 0;
+  totalProfesionales = 0;
+  totalBoxes = 0;
+  boxesDisponibles = 0;
+  boxesMantencion = 0;
+
+  constructor() {
+    this.currentUser = this.authService.currentUser;
+  }
+
+  ngOnInit(): void {
+    // Dependiendo del rol del usuario, cargamos los datos necesarios.
+    const userRole = this.currentUser()?.role;
+
+    if (userRole === 'Administrador del sistema') {
+      this.cargarDatosAdmin();
+    } else if (userRole === 'Coordinador de boxes') {
+      this.cargarDatosCoordinador();
+    }
+  }
+
+  cargarDatosAdmin(): void {
+    this.especialidadService.getEspecialidades().subscribe(data => {
+      this.totalEspecialidades = data.length;
+    });
+    this.profesionalService.getProfesionales().subscribe(data => {
+      this.totalProfesionales = data.length;
+    });
+  }
+
+  cargarDatosCoordinador(): void {
+    this.boxService.getBoxes().subscribe(data => {
+      this.totalBoxes = data.length;
+      this.boxesDisponibles = data.filter(b => b.estado === 'Disponible').length;
+      this.boxesMantencion = data.filter(b => b.estado === 'En mantención').length;
+    });
+  }
 }

@@ -5,7 +5,7 @@
   align-items: center;
   padding: 0 20px;
   height: 60px;
-  background-color: #009999; /* Azul RedSalud */
+  background-color: #009999;
   color: white;
 }
 
@@ -29,7 +29,7 @@
 }
 
 .user-info button {
-  background-color: #e50051; /* Fucsia RedSalud */
+  background-color: #e50051;
   color: white;
   border: none;
   padding: 8px 15px;

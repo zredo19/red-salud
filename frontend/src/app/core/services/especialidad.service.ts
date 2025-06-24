@@ -1,46 +1,34 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 import { Especialidad } from '../models/especialidad.model';
 
-// --- DATOS MOCK ---
-const MOCK_ESPECIALIDADES: Especialidad[] = [
-  { id: 1, nombre: 'Cardiología', descripcion: 'Atención del corazón y sistema circulatorio.' },
-  { id: 2, nombre: 'Pediatría', descripcion: 'Atención médica de bebés, niños y adolescentes.' },
-  { id: 3, nombre: 'Dermatología', descripcion: 'Tratamiento de enfermedades de la piel.' },
-  { id: 4, nombre: 'Endoscopía', descripcion: 'Procedimientos endoscópicos.' },
-];
+type UpdateEspecialidadPayload = Partial<{ nombre: string; descripcion: string }>;
 
 @Injectable({
   providedIn: 'root',
 })
 export class EspecialidadService {
-  especialidades = signal<Especialidad[]>([]);
-  private nextId = 5;
-
-  constructor() {
-    this.especialidades.set(MOCK_ESPECIALIDADES);
-  }
+  private http = inject(HttpClient);
+  private apiUrl = `${environment.apiUrl}/especialidades`;
 
   getEspecialidades() {
-    return this.especialidades.asReadonly();
+    return this.http.get<Especialidad[]>(this.apiUrl);
   }
 
-  addEspecialidad(nombre: string, descripcion: string) {
-    const nuevaEspecialidad: Especialidad = {
-      id: this.nextId++,
-      nombre,
-      descripcion,
-    };
-    this.especialidades.update(list => [...list, nuevaEspecialidad]);
+  getEspecialidadById(id: number) {
+    return this.http.get<Especialidad>(`${this.apiUrl}/${id}`);
   }
 
-  deleteEspecialidad(id: number, profesionalService: any): boolean {
-    // RF-10: No permitir eliminar si hay profesionales asignados
-    const tieneProfesionales = profesionalService.profesionales().some((p: any) => p.especialidadId === id);
-    if (tieneProfesionales) {
-      alert('Error: No se puede eliminar la especialidad porque tiene profesionales asignados.');
-      return false;
-    }
-    this.especialidades.update(list => list.filter(e => e.id !== id));
-    return true;
+  addEspecialidad(nombre: string, descripcion?: string) {
+    return this.http.post<Especialidad>(this.apiUrl, { nombre, descripcion });
+  }
+
+  updateEspecialidad(id: number, payload: UpdateEspecialidadPayload) {
+    return this.http.patch<Especialidad>(`${this.apiUrl}/${id}`, payload);
+  }
+
+  deleteEspecialidad(id: number) {
+    return this.http.delete(`${this.apiUrl}/${id}`);
   }
 }

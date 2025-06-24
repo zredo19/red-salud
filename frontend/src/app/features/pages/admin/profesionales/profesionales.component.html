@@ -22,7 +22,7 @@
         <label for="especialidad">Especialidad</label>
         <select id="especialidad" formControlName="especialidadId">
           <option value="" disabled>Seleccione una especialidad</option>
-          <option *ngFor="let esp of especialidades()" [value]="esp.id">{{ esp.nombre }}</option>
+          <option *ngFor="let esp of especialidades" [value]="esp.id">{{ esp.nombre }}</option>
         </select>
       </div>
 
@@ -53,18 +53,18 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let prof of profesionales()">
+      <tr *ngFor="let prof of profesionales">
         <td>{{ prof.id }}</td>
         <td>{{ prof.nombre }}</td>
         <td>{{ prof.rut }}</td>
-        <td>{{ getEspecialidadNombre(prof.especialidadId) }}</td>
+        <td>{{ prof.especialidad?.nombre || 'No Asignada' }}</td>
         <td>{{ prof.contacto }}</td>
         <td>
           <button class="action-button edit" (click)="iniciarEdicion(prof)">Editar</button>
           <button class="action-button delete" (click)="eliminarProfesional(prof.id)">Eliminar</button>
         </td>
       </tr>
-      <tr *ngIf="profesionales().length === 0">
+      <tr *ngIf="profesionales.length === 0">
         <td colspan="6">No hay profesionales registrados.</td>
       </tr>
     </tbody>

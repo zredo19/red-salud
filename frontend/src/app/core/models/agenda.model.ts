@@ -1,8 +1,11 @@
+import { Box } from "./box.model";
+import { Profesional } from "./profesional.model";
+
 export interface BloqueAgenda {
   id: number;
-  profesionalId: number;
-  boxId: number;
-  fecha: Date;
-  horaInicio: string; // Formato "HH:mm"
-  horaFin: string; // Formato "HH:mm"
+  fecha: string;
+  horaInicio: string;
+  horaFin: string;
+  profesional: Profesional;
+  box: Box;
 }
