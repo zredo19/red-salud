@@ -12,8 +12,6 @@ import { ProfesionalesModule } from './profesionales/profesionales.module';
 import { BoxesModule } from './boxes/boxes.module';
 import { AgendaModule } from './agenda/agenda.module';
 import { AuthModule } from './auth/auth.module';
-import { BoxesModule } from './boxes/boxes.module';
-import { AgendaModule } from './agenda/agenda.module';
 import { SeederModule } from './seeder/seeder.module';
 
 @Module({
@@ -23,14 +21,13 @@ import { SeederModule } from './seeder/seeder.module';
       type: 'sqlite',
       database: 'redsalud.db',
       entities: [Especialidad, Profesional, Box, BloqueAgenda, User],
-      synchronize: true, // ¡Importante! En desarrollo, crea las tablas automáticamente.
+      synchronize: true,
     }),
     EspecialidadesModule,
     ProfesionalesModule,
     BoxesModule,
     AgendaModule,
     AuthModule,
-    SeederModule,
   ],
   controllers: [],
   providers: [],
