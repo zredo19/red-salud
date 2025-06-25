@@ -6,8 +6,11 @@ import { Especialidad } from '../especialidades/entities/especialidad.entity';
 import { Profesional } from '../profesionales/entities/profesional.entity';
 import { Box } from '../boxes/entities/box.entity';
 
+
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Especialidad, Profesional, Box])],
+  imports: [
+    TypeOrmModule.forFeature([User, Especialidad, Profesional, Box]),
+  ],
   providers: [SeederService],
 })
 export class SeederModule {}

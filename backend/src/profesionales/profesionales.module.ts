@@ -9,5 +9,6 @@ import { Especialidad } from '../especialidades/entities/especialidad.entity';
   imports: [TypeOrmModule.forFeature([Profesional, Especialidad])],
   controllers: [ProfesionalesController],
   providers: [ProfesionalesService],
+  exports: [TypeOrmModule]
 })
 export class ProfesionalesModule {}

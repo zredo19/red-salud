@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Profesional } from '../models/profesional.model';
 
-// Este tipo ayuda a definir el payload para crear/actualizar
 type ProfesionalPayload = Omit<Profesional, 'id' | 'especialidad'> & { especialidadId: number };
 
 @Injectable({ providedIn: 'root' })

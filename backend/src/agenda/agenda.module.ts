@@ -10,5 +10,6 @@ import { Profesional } from '../profesionales/entities/profesional.entity';
   imports: [TypeOrmModule.forFeature([BloqueAgenda, Box, Profesional])],
   controllers: [AgendaController],
   providers: [AgendaService],
+  exports: [TypeOrmModule]
 })
 export class AgendaModule {}

@@ -24,7 +24,7 @@
         <tr *ngFor="let cita of miAgenda">
           <td>{{ cita.fecha | date:'fullDate':'':'es-CL' }}</td>
           <td>{{ cita.horaInicio }} - {{ cita.horaFin }}</td>
-          <td>{{ cita.box?.nombre }} (Piso {{ cita.box?.piso }})</td>
+          <td>{{ cita.box.nombre }} (Piso {{ cita.box.piso }})</td>
         </tr>
         <tr *ngIf="miAgenda.length === 0">
           <td colspan="3">No tienes citas programadas en tu agenda.</td>

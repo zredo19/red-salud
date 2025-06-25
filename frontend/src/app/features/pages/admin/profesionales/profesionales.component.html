@@ -57,7 +57,7 @@
         <td>{{ prof.id }}</td>
         <td>{{ prof.nombre }}</td>
         <td>{{ prof.rut }}</td>
-        <td>{{ prof.especialidad?.nombre || 'No Asignada' }}</td>
+        <td>{{ prof.especialidad.nombre || 'No Asignada' }}</td>
         <td>{{ prof.contacto }}</td>
         <td>
           <button class="action-button edit" (click)="iniciarEdicion(prof)">Editar</button>

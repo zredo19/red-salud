@@ -13,26 +13,27 @@
   </div>
 
   <table>
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Nombre</th>
-      <th>Descripción</th>
-      <th>Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let esp of filteredEspecialidades">
-      <td>{{ esp.id }}</td>
-      <td>{{ esp.nombre }}</td>
-      <td>{{ esp.descripcion }}</td>
-      <td>
-        <button class="action-button edit" (click)="editarEspecialidad(esp)">Editar</button>
-        <button class="action-button delete" (click)="eliminarEspecialidad(esp.id)">Eliminar</button>
-      </td>
-    </tr>
-    <tr *ngIf="filteredEspecialidades.length === 0">
-      <td colspan="4">No se encontraron especialidades.</td>
-    </tr>
-  </tbody>
-</table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let esp of filteredEspecialidades">
+        <td>{{ esp.id }}</td>
+        <td>{{ esp.nombre }}</td>
+        <td>{{ esp.descripcion }}</td>
+        <td>
+          <button class="action-button edit" (click)="editarEspecialidad(esp)">Editar</button>
+          <button class="action-button delete" (click)="eliminarEspecialidad(esp.id)">Eliminar</button>
+        </td>
+      </tr>
+      <tr *ngIf="filteredEspecialidades.length === 0">
+        <td colspan="4">No se encontraron especialidades.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

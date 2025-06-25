@@ -46,25 +46,18 @@ export class EspecialidadesComponent implements OnInit {
     });
   }
 
-  // --- MÉTODO NUEVO PARA LA LÓGICA DE EDITAR ---
   editarEspecialidad(especialidad: Especialidad): void {
-    const nuevoNombre = prompt("Ingrese el nuevo nombre para la especialidad:", especialidad.nombre);
-    if (nuevoNombre === null) return; // El usuario canceló
-
+    const nuevoNombre = prompt("Ingrese el nuevo nombre:", especialidad.nombre);
+    if (nuevoNombre === null) return;
     const nuevaDesc = prompt("Ingrese la nueva descripción:", especialidad.descripcion);
     if (nuevaDesc === null) return;
 
-    const payload = {
-      nombre: nuevoNombre,
-      descripcion: nuevaDesc
-    };
-
-    this.especialidadService.updateEspecialidad(especialidad.id, payload).subscribe({
-        next: () => {
-            alert('Especialidad actualizada con éxito.');
-            this.cargarEspecialidades();
-        },
-        error: (err) => alert(`Error al actualizar: ${err.error.message || 'Error desconocido'}`)
+    this.especialidadService.updateEspecialidad(especialidad.id, { nombre: nuevoNombre, descripcion: nuevaDesc }).subscribe({
+      next: () => {
+        alert('Especialidad actualizada con éxito.');
+        this.cargarEspecialidades();
+      },
+      error: (err) => alert(`Error al actualizar: ${err.error.message || 'Error desconocido'}`)
     });
   }
 
@@ -75,7 +68,7 @@ export class EspecialidadesComponent implements OnInit {
           alert('Especialidad eliminada con éxito.');
           this.cargarEspecialidades();
         },
-        error: (err) => alert(`Error al eliminar especialidad: ${err.error.message || 'Error desconocido'}`)
+        error: (err) => alert(`Error al eliminar: ${err.error.message || 'Error desconocido'}`)
       });
     }
   }

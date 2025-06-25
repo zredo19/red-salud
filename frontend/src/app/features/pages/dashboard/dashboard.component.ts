@@ -34,7 +34,6 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Dependiendo del rol del usuario, cargamos los datos necesarios.
     const userRole = this.currentUser()?.role;
 
     if (userRole === 'Administrador del sistema') {

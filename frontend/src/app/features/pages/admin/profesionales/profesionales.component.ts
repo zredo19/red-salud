@@ -69,7 +69,10 @@ export class ProfesionalesComponent implements OnInit {
       alert('Por favor, complete todos los campos.');
       return;
     }
-    const formValue = this.profesionalForm.value;
+    const formValue = {
+        ...this.profesionalForm.value,
+        especialidadId: parseInt(this.profesionalForm.value.especialidadId, 10)
+    };
 
     const operation = this.isEditMode
       ? this.profesionalService.updateProfesional(this.editingProfesionalId!, formValue)

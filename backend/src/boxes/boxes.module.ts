@@ -11,5 +11,6 @@ import { Especialidad } from '../especialidades/entities/especialidad.entity';
   ],
   controllers: [BoxesController],
   providers: [BoxesService],
+  exports: [TypeOrmModule]
 })
 export class BoxesModule {}

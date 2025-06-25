@@ -22,38 +22,39 @@ export class SeederService implements OnModuleInit {
   async seed() {
     const userCount = await this.userRepo.count();
     if (userCount > 0) {
-      console.log('La base de datos ya tiene datos. No se ejecutará el seeder.');
+      console.log('La base de datos ya tiene datos. No se necesita ejecutar el seeder.');
       return;
     }
 
     console.log('Base de datos vacía. Ejecutando seeder...');
 
-    // Crear Especialidades
+    const usersToCreate = [
+      { nombre: 'Admin RedSalud', email: 'admin@redsalud.cl', password: 'admin123', role: 'Administrador del sistema' as const },
+      { nombre: 'Coordinador General', email: 'coordinador@redsalud.cl', password: 'coord123', role: 'Coordinador de boxes' as const },
+      { nombre: 'Doctor Principal', email: 'doctor@redsalud.cl', password: 'doc123', role: 'Doctor' as const },
+    ];
+
+    for (const userData of usersToCreate) {
+        const user = this.userRepo.create(userData);
+        await this.userRepo.save(user); 
+    }
+    console.log(`${usersToCreate.length} usuarios creados.`);
+
     const cardiologia = await this.espRepo.save({ nombre: 'Cardiología', descripcion: 'Atención del corazón.' });
     const pediatria = await this.espRepo.save({ nombre: 'Pediatría', descripcion: 'Atención de niños.' });
-    const dermatologia = await this.espRepo.save({ nombre: 'Dermatología', descripcion: 'Atención de la piel.' });
+    console.log('Especialidades creadas.');
 
-    // Crear Usuarios
-    await this.userRepo.save([
-      { nombre: 'Admin RedSalud', email: 'admin@redsalud.cl', password: 'admin123', role: 'Administrador del sistema' },
-      { nombre: 'Coordinador General', email: 'coordinador@redsalud.cl', password: 'coord123', role: 'Coordinador de boxes' },
-      { nombre: 'Dr. Juan Pérez', email: 'doctor@redsalud.cl', password: 'doc123', role: 'Doctor' },
-    ]);
+    const prof1 = await this.profRepo.create({ nombre: 'Dr. Juan Pérez', rut: '11.111.111-1', contacto: 'doctor@redsalud.cl', especialidad: cardiologia });
+    await this.profRepo.save(prof1);
+    const prof2 = await this.profRepo.create({ nombre: 'Dra. Ana Gómez', rut: '22.222.222-2', contacto: 'agomez@redsalud.cl', especialidad: pediatria });
+    await this.profRepo.save(prof2);
+    console.log('Profesionales creados.');
 
-    // Crear Profesionales
-    await this.profRepo.save([
-      { nombre: 'Dr. Juan Pérez', rut: '11.111.111-1', contacto: 'doctor@redsalud.cl', especialidad: cardiologia },
-      { nombre: 'Dra. Ana Gómez', rut: '22.222.222-2', contacto: 'agomez@redsalud.cl', especialidad: pediatria },
-      { nombre: 'Dr. Carlos Soto', rut: '33.333.333-3', contacto: 'csoto@redsalud.cl', especialidad: cardiologia },
-    ]);
-
-    // Crear Boxes
     await this.boxRepo.save([
       { nombre: 'Box 401', piso: 4, especialidadAsociada: cardiologia, estado: 'Disponible' },
       { nombre: 'Box 501', piso: 5, especialidadAsociada: pediatria, estado: 'En mantención' },
-      { nombre: 'Box 705', piso: 7, especialidadAsociada: dermatologia, estado: 'Disponible' },
-      { nombre: 'Box 706', piso: 7, estado: 'Disponible' }, // Box sin especialidad fija
     ]);
+    console.log('Boxes creados.');
 
     console.log('Seeder ejecutado exitosamente.');
   }
